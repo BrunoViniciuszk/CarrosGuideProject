@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<!-- Compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+<!-- Compiled and minified JavaScript -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<title>Cadastro de Admin</title>
+<style type="text/css">
+	.nav-wrapper {
+		background-color: black;
+	} 
+	
+	.btn {
+		background-color: black;
+	}
+	
+	.btn:hover {
+		background-color: gray;
+	}
+	
+	.msgerro {
+		border-radius: 3%;
+		padding-top: 5px;
+		padding-left: 10px;
+		background-color: red;
+		width: 20%;
+		height: 40px;
+	}
+	
+	.msgsucesso {
+		border-radius: 3%;
+		padding-top: 5px;
+		padding-left: 10px;
+		background-color: lime;
+		width: 20%;
+		height: 40px;
+	}
+	
+	.alertamensagem {
+		margin-top: 10px;
+		margin-left: 10px;
+	}
+	
+	.row .col.s6 {
+    width: 100%;
+    margin-left: auto;
+    left: auto;
+    right: auto;
+}
+	.input-field.col label {
+    left: 0rem;
+}
+
+.page-footer {
+    padding-top: 20px;
+    color: #fff;
+    background-color: black;
+    margin-top: 272px;
+}
+</style>
+</head>
+<body>
+	
+	
+	<nav>
+		<div class="nav-wrapper">
+			<a href="#" class="brand-logo">Guia de Carros</a>
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li><a href="sass.html">Sass</a></li>
+				<li><a href="badges.html">Components</a></li>
+				<li><a href="collapsible.html">JavaScript</a></li>
+			</ul>
+		</div>
+	</nav>
+
+
+	<div class="row">
+		<form class="col s12" method="post" action="salvarAdm">
+		
+			<input type="hidden" th:value="${admins?.id}" name="id">
+		
+			<div class="row">
+				<div class="input-field col s6">
+					<input name="nome" type="text" class="validate" required="required" th:value="${admins?.nome}">
+					<label for="nome">Nome</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input name="email" type="email" class="validate" required="required" th:value="${admins?.email}">
+					<label for="email">Email</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input name="senha" type="password" class="validate"
+						required="required" th:value="${admins?.senha}"> <label for="senha">Senha</label>
+				</div>
+			</div>
+
+			<button class="btn waves-effect waves-light" type="submit"
+				name="action">
+				Submit <i class="material-icons right">done_all</i>
+			</button>
+		</form>	
+	</div>
+	
+	<div th:replace="fragments/mensagem"></div>
+	
+	
+	<footer class="page-footer">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">Carros guide</h5>
+                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+            © 2014 Copyright Text
+            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
+          </div>
+        </footer>
+	
+</body>
+</html>

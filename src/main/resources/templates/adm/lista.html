@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>CarrosGuide</title>
+<!-- Compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<style type="text/css">
+	.pagination {
+		text-align: center;
+		top: 90%;
+		position: absolute;
+		left: 40%;
+	}
+</style>
+</head>
+<body>
+
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Nome</th>
+				<th>E-mail</th>
+				<th>Alterar</th>
+				<th>Excluir</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr th:each="adm : ${admins}">
+				<td th:text="${adm.id}"></td>
+				<td th:text="${adm.nome}"></td>
+				<td th:text="${adm.email}"></td>
+				<td><a th:href="@{/alterarAdm(id=${adm.id})}">Alterar</a></td>
+				<td><a th:href="@{/excluirAdm(id=${adm.id})}">Excluir</a></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<ul class="pagination">
+		<li th:class="${paginaAtual == 1 ? 'disabled' : ''}">
+			<a th:href="${paginaAtual > 1 ? paginaAtual - 1 : '#'}">
+			<i class="material-icons">chevron_left</i></a>
+		</li>
+			
+		<li th:each="p : ${numPaginas}" th:class="${paginaAtual == p ? 'active grey' : 'waves-effect'}"> 
+			<a th:href="${p}"> <span th:text="${p}"></span> </a> 
+		</li>
+		
+		<li th:class="${paginaAtual == totalPaginas ? 'disabled' : ''}">
+			<a th:href="${paginaAtual < totalPaginas ? paginaAtual + 1 : '#'}"> 
+			<i class="material-icons">chevron_right</i></a>
+		</li>
+	</ul>
+	
+</body>
+</html>
