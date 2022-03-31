@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import sp.senai.br.cotia.cfp138.carrosguide.model.Administrador;
 import sp.senai.br.cotia.cfp138.carrosguide.repository.AdminRepository;
+import sp.senai.br.cotia.cfp138.carrosguide.util.HashUtil;
 
 @Controller
 public class AdmController {
@@ -41,10 +42,24 @@ public class AdmController {
 			att.addFlashAttribute("mensagemErro", "Verifique os campos...");
 			return "redirect:formAdm";
 		}
+		boolean alteracao = adm.getId() != null ? true : false;
+		
+		if(adm.getSenha().equals(HashUtil.hash256(""))) {
+			if(!alteracao) {
+				String parte = adm.getEmail().substring(0, adm.getEmail().indexOf("@"));
+				adm.setSenha(parte);
+			}else {
+				// busca a senha atual
+				String hash = admRep.findById(adm.getId()).get().getSenha();
+				// "seta" a senha com hash
+				adm.setSenhaComHash(hash);
+			}
+		}
+		
 		try {
 			// salva o administrador
 			admRep.save(adm);
-			att.addFlashAttribute("mensagemSucesso", "Administrador cadastrado com sucesso. ID:"+adm.getId());
+			att.addFlashAttribute("mensagemSucesso", "Administrador salvo com sucesso. Caso a senha não tenha sido informada no cadastro, será a parte do e-mail. ID:"+adm.getId());
 			return "redirect:formAdm";
 		} catch (Exception e) {
 			att.addFlashAttribute("mensagemErro", "Houve um erro ao cadastrar o Administrador: "+e.getMessage());
@@ -53,7 +68,7 @@ public class AdmController {
 	}
 	
 	// request mapping para listar, informando a página desejada
-	@RequestMapping("listaAdm/{page}")
+	@RequestMapping("listaAdm/{numElement}/{page}")
 	public String listar(Model model,@PathVariable("page") int page) {
 		
 		// cria um pageable com 6 elementos por página ordenando os objetos pelo nome de forma ascendente

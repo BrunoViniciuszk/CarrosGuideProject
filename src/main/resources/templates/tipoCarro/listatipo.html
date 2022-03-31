@@ -2,7 +2,7 @@
 <html xmlns:th="http://thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>CarrosGuide</title>
+<title>Tipos de Carro</title>
 <!-- Compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -22,20 +22,22 @@
 		<thead>
 			<tr>
 				<th>ID</th>
-				<th>Nome</th>
-				<th>E-mail</th>
+				<th>Tipo</th>
+				<th>Palavra-Chave</th>
+				<th>Descrição</th>
 				<th>Alterar</th>
 				<th>Excluir</th>
 			</tr>
 		</thead>
 
 		<tbody>
-			<tr th:each="adm : ${admins}">
-				<td th:text="${adm.id}"></td>
-				<td th:text="${adm.nome}"></td>
-				<td th:text="${adm.email}"></td>
-				<td><a th:href="@{/alterarAdm(id=${adm.id})}">Alterar</a></td>
-				<td><a th:href="@{/excluirAdm(id=${adm.id})}">Excluir</a></td>
+			<tr th:each="tipo : ${tipos}">
+				<td th:text="${tipo.id}"></td>
+				<td th:text="${tipo.tipo}"></td>
+				<td th:text="${tipo.palavrasChave}"></td>
+				<td th:text="${tipo.descricao}"></td>
+				<td><a th:href="@{/alterarTipo(id=${tipo.id})}">Alterar</a></td>
+				<td><a th:href="@{/excluirTipo(id=${tipo.id})}">Excluir</a></td>
 			</tr>
 		</tbody>
 	</table>

@@ -1,0 +1,59 @@
+.nav-wrapper {
+	background-color: black;
+}
+
+.btn {
+	background-color: black;
+}
+
+.btn:hover {
+	background-color: gray;
+}
+
+.msgerro {
+	border-radius: 3%;
+	padding-top: 5px;
+	padding-left: 10px;
+	background-color: red;
+	width: 20%;
+	height: 40px;
+}
+
+.msgsucesso {
+	border-radius: 3%;
+	padding-top: 5px;
+	padding-left: 10px;
+	background-color: lime;
+	width: 20%;
+	height: 75px;
+	position: fixed;
+}
+
+.alertamensagem {
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
+.row .col.s6 {
+	width: 100%;
+	margin-left: auto;
+	left: auto;
+	right: auto;
+}
+
+.page-footer {
+	padding-top: 20px;
+	color: #fff;
+	background-color: black;
+	margin-top: 272px;
+}
+
+.input-field.col label {
+    left: 0rem;
+}
+
+.pagination {
+	text-align: center;
+	position: relative;
+	top: 250px;
+} 
