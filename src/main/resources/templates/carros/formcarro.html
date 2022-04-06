@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Carros</title>
+<!-- Compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link type="text/css" rel="stylesheet" href="/css/style.css"/> 
+</head>
+<body>
+	
+		<nav th:replace="fragments/padrao :: cabecalho"></nav>
+
+	<div class="row">
+		<form class="col s12" method="post" action="salvarCarro">
+
+			<input type="hidden" th:value="${carros?.id}" name="id">
+			
+			<div class="row">
+				<div class="input-field col s6">
+					<input name="modelo" type="text" class="validate" required="required"
+						th:value="${carros?.modelo}"> <label for="modelo">Modelo</label>
+				</div>
+			</div>
+			
+			<div class="row">
+					<label>Tipo do carro</label>
+		  		<select class="browser-default" name="tipos.id">
+		   			<option th:each="t: ${tipos}" th:text="${t.tipo}" th:value="${t.id}"></option>
+		  		</select>
+		  	</div>
+	
+					
+			<div class="row">
+				<div class="input-field col s6">
+					<input name="marca" type="text" class="validate" required="required"
+						th:value="${carros?.marca}"> <label for="marca">Marca</label>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="input-field col s12">
+					<input name="testeSeguranca" type="text" class="validate"
+						required="required" th:value="${carros?.testeSeguranca}"> <label
+						for="testeSeguranca">Teste de Segurança</label>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="input-field col s12">
+					<input name="especificacaoTec" type="text" class="validate"
+						required="required" th:value="${carros?.especificacaoTec}"> <label
+						for="especificacaoTec">Especificacão Técnica</label>
+				</div>
+			</div>
+			
+			<div class="row">
+			    <p>
+			      <label>
+			        <input type="checkbox" name="estepe" />
+			        <span>Estepe</span>
+			      </label>
+			    </p>
+			</div>
+			
+			<div class="row">
+			    <p>
+			      <label>
+			        <input type="checkbox" name="tetoSolar" />
+			        <span>Teto Solar</span>
+			      </label>
+			    </p>
+			</div>
+			
+			<div class="row">
+			    <p>
+			      <label>
+			        <input type="checkbox" name="alcaPqp" />
+			        <span>Alça PQP</span>
+			      </label>
+			    </p>
+			</div>
+			
+			 
+			 
+			<div class="file-field input-field">
+		      <div class="btn">
+		        <span>File</span>
+		        <input type="file" multiple>
+		      </div>
+		      <div class="file-path-wrapper">
+		        <input class="file-path validate" type="text" placeholder="Upload one or more files">
+		      </div>
+		    </div>
+  
+			
+ 			 
+ 			 
+			<button class="btn waves-effect waves-light" type="submit"
+				name="action">
+				Submit <i class="material-icons right">done_all</i>
+			</button>
+		</form>
+	</div>
+
+	<div th:replace="fragments/mensagem"></div>
+
+	<footer th:replace="fragments/padrao :: rodape"></footer>	
+		
+	
+	
+</body>
+</html>

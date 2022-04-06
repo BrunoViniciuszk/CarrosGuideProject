@@ -52,7 +52,7 @@ public class TipoCarroController {
 		} catch (Exception e) {
 			att.addFlashAttribute("mensagemErro", "Houve um erro ao cadastrar o tipo do carro: "+e.getMessage());
 		}
-		return "redirect:formTipo/1";	
+		return "redirect:listaTipo/1";	
 	}
 	
 	// request mapping para listar, informando a página desejada
