@@ -16,7 +16,7 @@
 		<nav th:replace="fragments/padrao :: cabecalho"></nav>
 
 	<div class="row">
-		<form class="col s12" method="post" action="salvarCarro">
+		<form class="col s12" method="post" action="salvarCarro" enctype="multipart/form-data" accept-charset="UTF-8">
 
 			<input type="hidden" th:value="${carros?.id}" name="id">
 			
@@ -29,8 +29,8 @@
 			
 			<div class="row">
 					<label>Tipo do carro</label>
-		  		<select class="browser-default" name="tipos.id">
-		   			<option th:each="t: ${tipos}" th:text="${t.tipo}" th:value="${t.id}"></option>
+		  		<select class="browser-default" name="tipo.id">
+		   			<option th:each="t: ${tipos}" th:text="${t.tipo}" th:value="${t.id}" th:selected="${t.id == carros?.tipo?.id}"></option>
 		  		</select>
 		  	</div>
 	
@@ -90,10 +90,10 @@
 			<div class="file-field input-field">
 		      <div class="btn">
 		        <span>File</span>
-		        <input type="file" multiple>
+		        <input type="file" multiple name="fileFotos" accept="image/*">
 		      </div>
 		      <div class="file-path-wrapper">
-		        <input class="file-path validate" type="text" placeholder="Upload one or more files">
+		        <input class="file-path validate" type="text" placeholder="Upload de uma ou várias fotos">
 		      </div>
 		    </div>
   

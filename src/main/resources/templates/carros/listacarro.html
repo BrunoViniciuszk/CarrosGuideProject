@@ -23,10 +23,13 @@
 			<tr>
 				<th>ID</th>
 				<th>Modelo</th>
-				<!-- <th>Tipo do Carro</th>-->
+				<th>Tipo do Carro</th>
 				<th>Marca</th>
 				<th>Teste de Segurança</th>
 				<th>Especificação Técnica</th>
+				<th>Estepe</th> 
+				<th>Teto Solar</th>
+				<th>Alça PQP</th> 
 				<th>Alterar</th>
 				<th>Excluir</th>
 			</tr>
@@ -36,10 +39,13 @@
 			<tr th:each="carro : ${carros}">
 				<td th:text="${carro.id}"></td>
 				<td th:text="${carro.modelo}"></td>
-				<!--<td th:text="${carro.tipos.tipo}"></td>--> 
+				<td th:text="${carro.tipo.tipo}"></td>
 				<td th:text="${carro.marca}"></td>
 				<td th:text="${carro.testeSeguranca}"></td>
 				<td th:text="${carro.especificacaoTec}"></td>
+				<td th:text="${carro.estepe}"></td>
+				<td th:text="${carro.tetoSolar}"></td>
+				<td th:text="${carro.alcaPqp}"></td>
 				<td><a th:href="@{/alterarCarro(id=${carro.id})}">Alterar</a></td>
 				<td><a th:href="@{/excluirCarro(id=${carro.id})}">Excluir</a></td>
 			</tr>

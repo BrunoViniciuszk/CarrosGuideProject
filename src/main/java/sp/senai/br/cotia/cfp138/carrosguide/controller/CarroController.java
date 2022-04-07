@@ -15,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -41,9 +43,10 @@ public class CarroController {
 		
 	
 	@RequestMapping(value = "salvarCarro", method = RequestMethod.POST)
-	public String salvarCarro(@Valid Carros carro) {
-		carroRep.save(carro);
-		return "redirect:listaCarro/1";
+	public String salvarCarro(@Valid Carros carro,@RequestParam("fileFotos") MultipartFile[] fileFotos) {
+		System.out.println(fileFotos.length);
+		//carroRep.save(carro);
+		return "redirect:formCarro";
 	}
 	
 	// request mapping para listar, informando a página desejada
