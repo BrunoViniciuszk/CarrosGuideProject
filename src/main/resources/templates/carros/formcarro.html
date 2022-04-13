@@ -61,7 +61,7 @@
 			<div class="row">
 			    <p>
 			      <label>
-			        <input type="checkbox" name="estepe" />
+			        <input type="checkbox" name="estepe" th:checked="${carros?.estepe}" />
 			        <span>Estepe</span>
 			      </label>
 			    </p>
@@ -70,7 +70,7 @@
 			<div class="row">
 			    <p>
 			      <label>
-			        <input type="checkbox" name="tetoSolar" />
+			        <input type="checkbox" name="tetoSolar" th:checked="${carros?.tetoSolar}" />
 			        <span>Teto Solar</span>
 			      </label>
 			    </p>
@@ -79,7 +79,7 @@
 			<div class="row">
 			    <p>
 			      <label>
-			        <input type="checkbox" name="alcaPqp" />
+			        <input type="checkbox" name="alcaPqp" th:checked="${carros?.alcaPqp}" />
 			        <span>Alça PQP</span>
 			      </label>
 			    </p>
@@ -96,10 +96,21 @@
 		        <input class="file-path validate" type="text" placeholder="Upload de uma ou várias fotos">
 		      </div>
 		    </div>
+		    
+		    <div th:if="${carros?.fotos?.length > 0}">
+		    	<h6>Fotos cadastradas</h6>
+		    	<div>
+		    		<ul>
+		    			<li th:each="foto, i : ${carros?.verFotos()}">
+		    				<a href="${foto}" target="_blank"><img th:src="${foto}"></a>
+		    				<a th:href="@{/excluirFoto(idCarro=${carros.id}, numFoto = ${i.index})}">
+		    					<i class="material-icons">delete_forever</i>
+		    				</a>
+		    			</li>
+		    		</ul>
+		    	</div>
+		    </div>
   
-			
- 			 
- 			 
 			<button class="btn waves-effect waves-light" type="submit"
 				name="action">
 				Submit <i class="material-icons right">done_all</i>

@@ -30,6 +30,7 @@
 				<th>Estepe</th> 
 				<th>Teto Solar</th>
 				<th>Alça PQP</th> 
+				<th>Fotos do Carro</th>
 				<th>Alterar</th>
 				<th>Excluir</th>
 			</tr>
@@ -46,6 +47,7 @@
 				<td th:text="${carro.estepe}"></td>
 				<td th:text="${carro.tetoSolar}"></td>
 				<td th:text="${carro.alcaPqp}"></td>
+				<td style="display: flex !important"><img style="width: 150px; margin-left: 2%" th:each="foto: ${carro.verFotos()}" th:src="${foto}"></td>
 				<td><a th:href="@{/alterarCarro(id=${carro.id})}">Alterar</a></td>
 				<td><a th:href="@{/excluirCarro(id=${carro.id})}">Excluir</a></td>
 			</tr>

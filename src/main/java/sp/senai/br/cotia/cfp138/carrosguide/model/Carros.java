@@ -27,4 +27,8 @@ public class Carros {
 	private boolean estepe;
 	private boolean tetoSolar;
 	private boolean alcaPqp;
+	
+	public String[] verFotos() {
+		return this.fotos.split(";");
+	}
 }

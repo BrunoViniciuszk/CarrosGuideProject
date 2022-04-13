@@ -1,5 +1,6 @@
 package sp.senai.br.cotia.cfp138.carrosguide.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,7 @@ import sp.senai.br.cotia.cfp138.carrosguide.model.Carros;
 import sp.senai.br.cotia.cfp138.carrosguide.model.TipoCarro;
 import sp.senai.br.cotia.cfp138.carrosguide.repository.CarroRepository;
 import sp.senai.br.cotia.cfp138.carrosguide.repository.TipoRepository;
+import sp.senai.br.cotia.cfp138.carrosguide.util.FirebaseUtil;
 
 @Controller
 public class CarroController {
@@ -33,6 +35,9 @@ public class CarroController {
 	
 	@Autowired
 	private CarroRepository carroRep;
+	
+	@Autowired
+	private FirebaseUtil firebaseUtil;
 	
 	
 	@RequestMapping(value = "formCarro", method = RequestMethod.GET)
@@ -44,8 +49,26 @@ public class CarroController {
 	
 	@RequestMapping(value = "salvarCarro", method = RequestMethod.POST)
 	public String salvarCarro(@Valid Carros carro,@RequestParam("fileFotos") MultipartFile[] fileFotos) {
-		System.out.println(fileFotos.length);
-		//carroRep.save(carro);
+		// string para a url das fotos
+		String fotos = ""; 
+		// percorrer cada arquivo que foi submetido no formulario
+		for(MultipartFile arquivo : fileFotos) {
+			// verificar se o arquivo está vazio
+			if(arquivo.getOriginalFilename().isEmpty()) {
+				// vai para o proximo arquivo
+				continue;
+			}
+			// faz o upload para a nuvem e obtém a url gerada
+			try {
+				fotos += firebaseUtil.uploadFile(arquivo)+";";
+			} catch (IOException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+		// atribui a String fotos ao objeto carro 
+		carro.setFotos(fotos);
+		carroRep.save(carro);
 		return "redirect:formCarro";
 	}
 	
@@ -83,6 +106,7 @@ public class CarroController {
 	@RequestMapping("alterarCarro")
 	public String alterarCarro(Model model, Long id) {
 		Carros carro = carroRep.findById(id).get();
+		carro.verFotos();
 		model.addAttribute("carros", carro);
 		return "forward:formCarro";
 	}
@@ -92,6 +116,26 @@ public class CarroController {
 		carroRep.deleteById(id);
 		return "redirect:listaCarro/1";
 	}
+	
+	
+	@RequestMapping("excluirFoto")
+	public String excluirFoto(Long idCarro, int numFoto, Model model) {
+		// busca o restaurante no banco de dados
+		Carros carro = carroRep.findById(idCarro).get();
+		// pegar a string da foto a ser excluída
+		String fotoUrl = carro.verFotos()[numFoto];
+		// excluir do firebase
+		firebaseUtil.deletar(fotoUrl);
+		// "arranca" a foto da String fotos
+		carro.setFotos(carro.getFotos().replace(fotoUrl+";", ""));
+		// salva no bd o objeto carro
+		carroRep.save(carro);
+		// adiciona o carro na Model
+		model.addAttribute("carros", carro);
+		// encaminhar para o form
+		return "forward:formCarro";
+	}
+	
 	
 	
 }

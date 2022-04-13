@@ -7,13 +7,18 @@ import javax.management.RuntimeErrorException;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 
+@Service
 public class FirebaseUtil {
 	// variável para guardar as credenciais do firebase
 	private Credentials credenciais;
@@ -41,18 +46,34 @@ public class FirebaseUtil {
 		}
 	}
 	
-	public String uploadFile(MultipartFile arquivo) {
+	public String uploadFile(MultipartFile arquivo) throws IOException {
 		// gera uma String aleatória para o nome do arquivo
 		String nomeArquivo = UUID.randomUUID().toString() + getExtensao(arquivo.getOriginalFilename());
-		
-		return nomeArquivo;
+		// criar um BlobId
+		BlobId blobId = BlobId.of(BUCKET_NAME, nomeArquivo);
+		// criar um BlobInfo a partir do BlobId
+		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
+		// manda o blobInfo para o storage passando os bytes do arquivo pra ele
+		storage.create(blobInfo, arquivo.getBytes());
+		// retornar a url para acessar o arquivo
+		return String.format(DOWNLOAD_URL, nomeArquivo);
 	}
 	
 	
-	// retorna a extensao de um arquivo atravez do seu nome
+	// retorna a extensao de um arquivo atrave do seu nome
 	private String getExtensao(String nomeArquivo) {
 		// retorna o trecho da string que vai do ultimo ponto ate o fim
 		return nomeArquivo.substring(nomeArquivo.lastIndexOf('.'));
+	}
+	
+	// metodo que apaga a foto, deleta no firebase
+	public void deletar(String nomeArquivo) {
+		// retira o prefixo e sufixo do nome do arquivo
+		nomeArquivo = nomeArquivo.replace(PREFIX, "").replace(SUFFIX, "");
+		// pega um blob atraves do nome do arquivo
+		Blob blob = storage.get(BlobId.of(BUCKET_NAME, nomeArquivo));
+		// deleta o arquivo
+		storage.delete(blob.getBlobId());
 	}
 	
 }
