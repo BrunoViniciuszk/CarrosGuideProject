@@ -50,7 +50,7 @@ public class CarroController {
 	@RequestMapping(value = "salvarCarro", method = RequestMethod.POST)
 	public String salvarCarro(@Valid Carros carro,@RequestParam("fileFotos") MultipartFile[] fileFotos) {
 		// string para a url das fotos
-		String fotos = ""; 
+		String fotos = carro.getFotos(); 
 		// percorrer cada arquivo que foi submetido no formulario
 		for(MultipartFile arquivo : fileFotos) {
 			// verificar se o arquivo está vazio
@@ -113,7 +113,13 @@ public class CarroController {
 
 	@RequestMapping("excluirCarro")
 	public String excluirCarro(Long id) {
-		carroRep.deleteById(id);
+		Carros carro = carroRep.findById(id).get();
+		if(carro.getFotos().length() > 0) {
+			for(String foto : carro.verFotos()) {
+				firebaseUtil.deletar(foto);
+			}
+		}
+		carroRep.delete(carro);
 		return "redirect:listaCarro/1";
 	}
 	
@@ -135,7 +141,5 @@ public class CarroController {
 		// encaminhar para o form
 		return "forward:formCarro";
 	}
-	
-	
 	
 }

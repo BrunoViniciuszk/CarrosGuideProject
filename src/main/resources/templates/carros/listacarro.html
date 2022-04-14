@@ -15,7 +15,7 @@
 </head>
 <body>
 	
-		<header th:replace="fragments/padrao :: cabecalho"></header>
+		<header th:replace="fragments/default :: cabecalho"></header>
 	
 
 	<table>
@@ -32,7 +32,7 @@
 				<th>Alça PQP</th> 
 				<th>Fotos do Carro</th>
 				<th>Alterar</th>
-				<th>Excluir</th>
+				<th>Excluir Carro</th>
 			</tr>
 		</thead>
 
@@ -49,7 +49,7 @@
 				<td th:text="${carro.alcaPqp}"></td>
 				<td style="display: flex !important"><img style="width: 150px; margin-left: 2%" th:each="foto: ${carro.verFotos()}" th:src="${foto}"></td>
 				<td><a th:href="@{/alterarCarro(id=${carro.id})}">Alterar</a></td>
-				<td><a th:href="@{/excluirCarro(id=${carro.id})}">Excluir</a></td>
+				<td><a th:href="@{/excluirCarro(id=${carro.id})}">Excluir Carro</a></td>
 			</tr>
 		</tbody>
 	</table>

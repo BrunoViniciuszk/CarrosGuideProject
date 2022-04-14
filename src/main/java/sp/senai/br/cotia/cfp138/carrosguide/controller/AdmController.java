@@ -3,6 +3,7 @@ package sp.senai.br.cotia.cfp138.carrosguide.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import sp.senai.br.cotia.cfp138.carrosguide.annotation.Publico;
 import sp.senai.br.cotia.cfp138.carrosguide.model.Administrador;
 import sp.senai.br.cotia.cfp138.carrosguide.repository.AdminRepository;
 import sp.senai.br.cotia.cfp138.carrosguide.util.HashUtil;
@@ -24,7 +26,7 @@ import sp.senai.br.cotia.cfp138.carrosguide.util.HashUtil;
 @Controller
 public class AdmController {
 	// repository para persistencia do adm
-	//autowiredpara injetar a dependencia
+	//autowired para injetar a dependencia
 	@Autowired
 	private AdminRepository admRep;
 	
@@ -111,4 +113,29 @@ public class AdmController {
 		return "redirect:listaAdm/1";
 	}
 	
+	@Publico
+	@RequestMapping("login")
+	public String login(Administrador admLogin, RedirectAttributes attr, HttpSession session) {
+		// buscar o admnistrador no BD, atraves do email e da senha
+		Administrador admin = admRep.findByEmailAndSenha(admLogin.getEmail(), admLogin.getSenha());
+		// verifica se existe o adm
+		if(admin == null) {
+			//se for nulo, avisa ao usuario 
+			attr.addFlashAttribute("mensagemErro", "Login e/ou senha inválido(s)");
+			return "redirect:/";
+		}else {
+			// se nao for nulo, salva na sessao e acessa o sistema
+			session.setAttribute("usuarioLogado", admin);
+			return "redirect:/listaCarro/1";
+		}
+		
+	}
+	
+	@RequestMapping("logout")
+	public String logout(HttpSession session) {
+		//elimina o usuario da session
+		session.invalidate();
+		// retorna para a página inicial
+		return "redirect:/";
+	}
 }

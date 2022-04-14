@@ -20,6 +20,8 @@
 
 			<input type="hidden" th:value="${carros?.id}" name="id">
 			
+			<input type="hidden" th:value="${carros?.fotos}" name="fotos">
+			
 			<div class="row">
 				<div class="input-field col s6">
 					<input name="modelo" type="text" class="validate" required="required"
@@ -96,6 +98,8 @@
 		        <input class="file-path validate" type="text" placeholder="Upload de uma ou várias fotos">
 		      </div>
 		    </div>
+		    
+		
 		    
 		    <div th:if="${carros?.fotos?.length > 0}">
 		    	<h6>Fotos cadastradas</h6>

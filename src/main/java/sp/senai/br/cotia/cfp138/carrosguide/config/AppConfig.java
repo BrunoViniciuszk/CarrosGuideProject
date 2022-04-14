@@ -2,15 +2,22 @@ package sp.senai.br.cotia.cfp138.carrosguide.config;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import sp.senai.br.cotia.cfp138.carrosguide.interceptor.AppInterceptor;
 
 @Configuration
-public class AppConfig {
+public class AppConfig implements WebMvcConfigurer {
+		@Autowired
+		private AppInterceptor interceptor;
 		
 		// Configura a conexão da aplicacão ao Banco de Dados MySql
 	
@@ -36,6 +43,11 @@ public class AppConfig {
 			adapter.setGenerateDdl(true);
 			return adapter;
 		
+		}
+		
+		@Override
+		public void addInterceptors(InterceptorRegistry registry) {
+			registry.addInterceptor(interceptor);
 		}
 
 }
