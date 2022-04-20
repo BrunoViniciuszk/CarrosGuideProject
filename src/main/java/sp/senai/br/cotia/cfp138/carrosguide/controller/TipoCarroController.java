@@ -96,8 +96,12 @@ public class TipoCarroController {
 
 	@RequestMapping("excluirTipo")
 	public String excluirTipo(Long id) {
-		tipoRep.deleteById(id);
-		return "redirect:listaTipo/1";
+		try {
+			tipoRep.deleteById(id);
+		} catch (org.springframework.dao.DataIntegrityViolationException e) {
+			throw new RuntimeException("Não é possível excluir um tipo de carro usado");
+		}
+		return "redirect:listaTipo/6/1";
 	}
 	
 	@RequestMapping("buscaTipo")

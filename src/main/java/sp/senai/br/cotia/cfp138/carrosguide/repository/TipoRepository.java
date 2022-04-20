@@ -15,4 +15,6 @@ public interface TipoRepository extends PagingAndSortingRepository<TipoCarro, Lo
 	public List<TipoCarro> procurarPorCampo(@Param("p") String palavrasChave);
 
 	public List<TipoCarro> findAllByOrderByTipoAsc();
+	
+	
 }
